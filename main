@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -eu
+
+if [ -f "$WD/build/main.beam" ]; then
+    rm "$WD/build/main.beam"
+fi
+
+# for x in "-S" "+to_core"; do
+#     erlc -Wall -Werror -o "$WD/build" "$x" "$WD/src/main.erl"
+# done
+
+erl \
+    -pa "$WD/build" \
+    -noshell \
+    -eval "
+        compile:file(
+            \"$WD/build/main.core\",
+            [from_core, {outdir, \"$WD/build\"}]
+        ),
+        main:main(),
+        init:stop().
+    " \
+    || rm erl_crash.dump

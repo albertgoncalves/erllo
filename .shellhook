@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+if [ "$(uname -s)" = "Linux" ]; then
+    alias open="xdg-open"
+fi
+
+export WD=$PWD
+export DIALYZER_PLT="$WD/.dialyzer_plt"
+
+if [ ! -d "$WD/build" ]; then
+    mkdir "$WD/build"
+fi
+
+if [ ! -f "$DIALYZER_PLT" ]; then
+    dialyzer --build_plt --apps compiler erts kernel sasl stdlib
+fi
+
+dialyze() {
+    dialyzer \
+        --no_check_plt \
+        --src \
+        -Werror_handling \
+        -Woverspecs \
+        -Wspecdiffs \
+        -Wunderspecs \
+        -Wunknown \
+        -Wunmatched_returns \
+        --apps "$WD/src"
+}
+
+export -f dialyze
