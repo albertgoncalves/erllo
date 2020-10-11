@@ -6,9 +6,9 @@ if [ -f "$WD/build/main.beam" ]; then
     rm "$WD/build/main.beam"
 fi
 
-# for x in "-S" "+to_core"; do
-#     erlc -Wall -Werror -o "$WD/build" "$x" "$WD/src/main.erl"
-# done
+for x in "-S" "+to_core"; do
+    erlc -Wall -Werror -o "$WD/build" "$x" "$WD/src/main.erl"
+done
 
 erl \
     -pa "$WD/build" \
