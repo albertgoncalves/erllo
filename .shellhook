@@ -15,7 +15,7 @@ if [ ! -f "$DIALYZER_PLT" ]; then
     dialyzer --build_plt --apps compiler erts kernel sasl stdlib
 fi
 
-dialyze() {
+dialyze () {
     dialyzer \
         --no_check_plt \
         --src \
